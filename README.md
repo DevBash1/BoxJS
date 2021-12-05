@@ -152,3 +152,131 @@ let bx = new Boxer("#demo",demo).render();
 ```
 
 This will automatically set any text you write in the `Input` Element to the prop `name` which updates the `H1` Element
+
+### b-if and b-else
+The **b-if** and **b-else** is used to render data based on the truthfullness of a prop or evaluation of parameters passed to the **b-if**.
+
+This is how the **b-if** and **b-else** works.
+
+`b-if=[{{propName}}] b-else=[Render this if propName in b-if is evaluated to false]`
+`b-if=[{{propName}} > 5] b-else="5 is Not Greater than {{propName}}"`
+`b-if=[{{propName}}.trim() == 'stop'] b-else="Am still Running"`
+
+if the value of `b-if` evaluated to `true`, Then the `innerHTML` of the element will be rendered.
+else the value of `b-else` will be rendered in the `innerHTML` of the Element.
+
+An Example of **b-if** and **b-else** at work.
+
+index.html
+```html
+<div id="demo"></div>
+```
+
+myName.box
+```javascript
+let demo = {
+    data:{
+        name:"",
+        validName:false,
+        color:"red",
+    },
+    watch:{
+        name:function(value){
+            if(value.length < 5){
+                this.validName = false;
+                this.color = "red";
+            }else{
+                this.validName = true;
+                this.color = "green";
+            }
+        }
+    },
+    template:function(){
+        return `
+        <h1 b-if="{{validName}}" b-else="Name Too Short" style="color:{{color}}">My name is {{name}}</h1>
+        <input b-value="name" placeholder="Enter Your Name">
+        `
+    }
+}
+```
+
+script.js
+```javascript
+let bx = new Boxer("#demo",demo).render();
+```
+
+### b-switch and b-case
+The **b-switch** and **b-case** attribute is used to solve the issue of having to use multiple 
+**b-if** and **b-else**
+
+This is how it works.
+
+`b-switch=[switcher:case] b-case=[case:value;case:value;case:value;...]`
+
+A demo to understand the **b-switch** and **b-case** better.
+
+index.html
+```html
+<div id="demo"></div>
+```
+
+PickANumber.box
+```javascript
+let demo = {
+    data:{
+        answer: "<p>Pick a number between 1-5</p>",
+        thanks:"Thanks for using BoxJS",
+        number:0,
+    },
+    template:function(){
+        return `
+        <p b-switch="number:answer" b-case="1:BoxJS is cool;2:I have b-switch with is better that Vue's v-if and v-else;3:BoxJS is easy to learn and use;4:Make sure to star on github;5:{{thanks}}">{{answer}}</p>
+        <input b-value="number" placeholder="Enter a Number">
+        `
+    }
+}
+```
+
+script.js
+```javascript
+let bx = new Boxer("#demo",demo).render();
+```
+
+### b-style
+The **b-style** attribute is used to add __CSS__ styles to Elements.
+We declare this __CSS__ attributes in an Object.
+
+This is how it works.
+
+`b-style="{fontSize:25,fontWeight: 'bold'}"`
+`b-style="styles.button"`
+
+Here is a demo of the **b-style** attribute in use.
+
+index.html
+```html
+<div id="demo"></div>
+```
+
+paragraph.box
+```javascript
+let demo = {
+    template: function() {
+        return `
+        <p b-style="styles.para">Am a Paragraph.</p>
+        <p b-style="{color:'navy',fontSize:20,fontFamily:'cursive'}">Am another Paragraph.</p>`
+    },
+    styles: {
+        para: {
+            color: "green",
+            fontSize: 20,
+            fontFamily: "cursive",
+        }
+    }
+}
+```
+
+script.js
+```javascript
+let bx = new Boxer("#demo",demo).render();
+```
