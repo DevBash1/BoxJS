@@ -1,0 +1,44 @@
+let counter = {
+    data:{
+        count:0,
+        main:0,
+        type:"red",
+    },
+    start:function(){
+        if(this.count == 0){
+            this.type = "red";
+            this.main = "Zero";
+        }else{
+            this.type = "navy";
+        }
+    },
+    watch:{
+        count:function(count){
+            if(count != 0){
+                this.type = "navy";
+                this.main = count;
+            }else{
+                this.type = "red";
+                this.main = "Zero";
+            }
+            //update total
+            update();
+        }
+    },
+    methods:{
+        add:function(){
+            this.count++;
+        },
+        delete:function(){
+            this.count = 0;
+            this.$el.remove();
+        }
+    },
+    template:function(){
+        return `
+        <span class="badge m-2" style="background-color:{{type}};">{{main}}</span>
+        <button class="btn btn-secondary btn-sm" b-on:click="add">Increment</button>
+        <button b-style="{'background':'darkred'}" class="btn btn-secondary btn-sm" b-on:click="delete">Delete</button>
+        `
+    }
+}
